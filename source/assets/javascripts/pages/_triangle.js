@@ -8,9 +8,13 @@ window.ExperimentsCreative.Triangle = function Triangle (container, config) {
     this.gradient = new window.ExperimentsCreative.Gradient(this.config.colors, this.config.points);
     this.index = 0;
     this.lines = [];
+    this.cursor = {
+        x: 0,
+        y: 0
+    };
+    window.addEventListener('mousemove', this.updateCursor.bind(this));
     this.setCanvas();
     this.initTriangle();
-    this.animateLines();
 };
 
 window.ExperimentsCreative.Triangle.prototype.setCanvas = function () {
@@ -41,6 +45,7 @@ window.ExperimentsCreative.Triangle.prototype.initTriangle = function () {
         this.lines.push(line);
         angle += this.config.angleAdded;
     }
+    this.animateLines();
 };
 
 window.ExperimentsCreative.Triangle.prototype.animateLines = function () {
@@ -49,6 +54,11 @@ window.ExperimentsCreative.Triangle.prototype.animateLines = function () {
         this.setLine();
         if (this.index > this.max) {
             clearInterval(this.interval);
+            setTimeout(function () {
+                this.lines = [];
+                this.index = 0;
+                this.initTriangle();
+            }.bind(this), 1000);
         }
     }.bind(this), 0.001);
 };
@@ -95,8 +105,8 @@ window.ExperimentsCreative.Triangle.prototype.getRadians = function (angle) {
 window.ExperimentsCreative.Triangle.prototype.setStartPoint = function (radians) {
     'use strict';
     return {
-        x: Math.sin(radians) * this.config.size + this.canvasSize.width / 2,
-        y: Math.cos(radians) * this.config.size + this.canvasSize.height / 2
+        x: Math.sin(radians) * this.config.size,
+        y: Math.cos(radians) * this.config.size
     };
 };
 
@@ -111,12 +121,18 @@ window.ExperimentsCreative.Triangle.prototype.animate = function () {
     this.animation = window.requestAnimationFrame(this.animate.bind(this));
 };
 
+window.ExperimentsCreative.Triangle.prototype.updateCursor = function (event) {
+    'use strict';
+    this.cursor.x = event.clientX;
+    this.cursor.y = event.clientY;
+};
+
 window.ExperimentsCreative.Triangle.prototype.draw = function (line) {
     'use strict';
     this.ctx.beginPath();
     this.ctx.lineWidth = this.config.stroke;
     this.ctx.strokeStyle = line.color;
-    this.ctx.moveTo(line.start.x, line.start.y);
-    this.ctx.lineTo(line.end.x, line.end.y);
+    this.ctx.moveTo(line.start.x + this.cursor.x, line.start.y + this.cursor.y);
+    this.ctx.lineTo(line.end.x + this.cursor.x, line.end.y + this.cursor.y);
     this.ctx.stroke();
 };

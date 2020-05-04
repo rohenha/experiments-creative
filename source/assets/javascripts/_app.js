@@ -18,13 +18,29 @@ window.ExperimentsCreative.App = {
         case 'triangle':
             new window.ExperimentsCreative.Triangle(container, {
                 colors: {
-                    end: '#FA709A',
-                    start: '#21D4FD'
+                    end: '#4A00E0',
+                    start: '#FEE140'
                 },
                 interval: 0.05,
-                points: 3,
+                points: 5,
                 size: 350,
                 stroke: 2
+            });
+            break;
+        case 'particles':
+            new window.ExperimentsCreative.Particles(container, {
+                colors: {
+                    end: '#4A00E0',
+                    start: '#FEE140'
+                }
+            });
+            break;
+        case 'galerie':
+            new window.ExperimentsCreative.Galerie(container, {
+                delta: 2,
+                grid: {
+                    x: 5
+                }
             });
             break;
         default:

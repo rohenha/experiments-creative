@@ -1,0 +1,12 @@
+---
+title: Particles
+---
+
+<div id="page" class="page_hexagon page_galerie" data-experience="galerie">
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <ul class="js-images">
+    <% (1..20).each do |i| %>
+    <li><%= image_tag "galerie/img-#{i}.jpg" %></li>
+    <% end %>
+  </ul>
+</div>

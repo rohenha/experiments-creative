@@ -1,4 +1,5 @@
 //= require_self
+//= require_tree ./vendors
 //= require_tree ./components
 //= require_tree ./pages
 //= require _app

@@ -35,9 +35,9 @@ window.ExperimentsCreative.App = {
                 }
             });
             break;
-        case 'galerie':
-            new window.ExperimentsCreative.Galerie(container, {
-                delta: 2,
+        case 'galerie-canvas':
+            new window.ExperimentsCreative.GalerieCanvas(container, {
+                delta: 1,
                 grid: {
                     x: 5
                 }

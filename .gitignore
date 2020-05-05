@@ -4,7 +4,6 @@
 .sass-cache
 Gemfile.lock
 package-lock.json
-yarn.lock
 build/
 node_modules/
 tmp/

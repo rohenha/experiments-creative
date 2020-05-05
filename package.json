@@ -1,0 +1,13 @@
+{
+  "name": "experiments-creative",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:rohenha/experiments-creative.git",
+  "author": "<romain.breton.pro@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "pixi-filters": "^3.1.1",
+    "pixi.js": "^5.2.4"
+  }
+}

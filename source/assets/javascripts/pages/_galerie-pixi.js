@@ -8,9 +8,11 @@ window.ExperimentsCreative.GaleriePixi = function GaleriePixi (container, config
     this.images = [];
     this.pan = {
         active: false,
+        center: initValue,
         current: initValue,
         delta: initValue,
         sens: initValue,
+        speed: initValue,
         start: initValue,
         tmp: initValue
     };
@@ -49,6 +51,7 @@ window.ExperimentsCreative.GaleriePixi.prototype.panStartEvent = function (ev) {
     }
     this.pan.active = true;
     this.pan.start = ev.center;
+    this.pan.center = ev.center;
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.panEvent = function (ev) {
@@ -64,13 +67,13 @@ window.ExperimentsCreative.GaleriePixi.prototype.panEvent = function (ev) {
         x: ev.center.x - this.pan.start.x < 0,
         y: ev.center.y - this.pan.start.y < 0
     };
-
     this.pan.delta = {
         x: (tmp.x - this.pan.tmp.x) * 3,
         y: (tmp.y - this.pan.tmp.y) * 3
     };
-
+    this.pan.speed = { x: this.pan.speed.x + this.pan.delta.x, y: this.pan.speed.y + this.pan.delta.y };
     this.pan.tmp = tmp;
+    this.pan.center = ev.center;
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.panEndEvent = function (ev) {
@@ -80,10 +83,9 @@ window.ExperimentsCreative.GaleriePixi.prototype.panEndEvent = function (ev) {
         x: ev.center.x - this.pan.start.x + this.pan.current.x,
         y: ev.center.y - this.pan.start.y + this.pan.current.y
     };
-    this.pan.delta = {
-        x: 0,
-        y: 0
-    };
+    this.pan.delta = { x: 0, y: 0 };
+    this.pan.speed = { x: 0, y: 0 };
+    this.pan.center = ev.center;
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.getImages = function () {
@@ -136,24 +138,24 @@ window.ExperimentsCreative.GaleriePixi.prototype.setCanvas = function () {
     this.slidesContainer = new PIXI.Container();
     this.app.stage.addChild(this.slidesContainer);
     this.app.stage.filters = [];
-    this.setFilter('distortion', this.container.querySelector('.js-distortion').src);
     this.setFilter('clouds', this.container.querySelector('.js-clouds').src);
     this.clouds.sprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
-    this.setDistortion();
+    this.setBlur();
     this.app.ticker.add(this.animate.bind(this));
 };
 
-window.ExperimentsCreative.GaleriePixi.prototype.setDistortion = function () {
+window.ExperimentsCreative.GaleriePixi.prototype.setBlur = function () {
     'use strict';
-    this.distortion.sprite.anchor.set(0.5);
-    this.distortion.x.position = this.canvasSize.width / 2;
-    this.distortion.x.target = this.canvasSize.width / 2;
-    this.distortion.y.position = this.canvasSize.height / 2;
-    this.distortion.y.target = this.canvasSize.height / 2;
-    this.distortion.scale.position = 0;
-    this.distortion.scale.target = 0;
-    this.distortion.sprite.width = this.canvasSize.width;
-    this.distortion.sprite.height = this.canvasSize.height;
+    this.zoomBlur = {
+        filter: new PIXI.filters.ZoomBlurFilter({ innerRadius: 0, strength: 0 }),
+        strength: {
+            delta: 0,
+            position: 0,
+            target: 0,
+            v: 0
+        }
+    };
+    this.app.stage.filters.push(this.zoomBlur.filter);
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.setFilter = function (name, texture) {
@@ -268,9 +270,19 @@ window.ExperimentsCreative.GaleriePixi.prototype.animate = function () {
             element.sprite.renderable = true;
         }
     }
-    this.updateElement(this.distortion);
-    this.clouds.x.target += 1;
+    this.clouds.x.target += Math.floor(Math.random() * 2);
+    this.clouds.y.target += Math.floor(Math.random() * 2);
     this.updateElement(this.clouds);
+    this.updateBlur();
+};
+
+window.ExperimentsCreative.GaleriePixi.prototype.updateBlur = function () {
+    'use strict';
+    var strength = Math.abs(this.pan.delta.x) + Math.abs(this.pan.delta.y);
+    this.zoomBlur.strength.target = strength * 0.5 / 80;
+    this.ease(this.zoomBlur.strength);
+    this.zoomBlur.filter.center = this.pan.center;
+    this.zoomBlur.filter.strength = this.zoomBlur.strength.position;
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.loadImage = function (element) {

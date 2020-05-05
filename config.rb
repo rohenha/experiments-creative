@@ -3,13 +3,13 @@
 # Site setting
 #
 ########################
-config[:site_url] = 'http://example.com'
-config[:site_name] = 'Example Site Name'
-config[:site_description] = 'Example Site Description.'
+config[:site_url] = 'https://experiment-creative.netlify.app/'
+config[:site_name] = 'Experiment Creative Romain Breton'
+config[:site_description] = 'Experiment Creative Romain Breton.'
 config[:site_keywords] = 'site keywords, hogehoge, fugafuga'
-config[:site_author] = 'Author Name'
+config[:site_author] = 'Romain Breton'
 config[:site_local] = 'en_US'
-config[:site_page_type] = 'article'
+config[:site_page_type] = 'page'
 config[:site_color] = '#4285f4'
 config[:site_image] = 'assets/images/image.jpg'
 config[:twitter_card] = 'summary_large_image'

@@ -172,8 +172,7 @@ window.ExperimentsCreative.GalerieCanvas.prototype.animate = function () {
     'use strict';
     var i = 0,
         element,
-        length = this.elements.length,
-        pixels = this.ctx.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height).data;
+        length = this.elements.length;
     this.ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
     for (i; i < length; i += 1) {
         element = this.elements[i];

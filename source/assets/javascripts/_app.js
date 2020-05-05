@@ -39,7 +39,15 @@ window.ExperimentsCreative.App = {
             new window.ExperimentsCreative.GalerieCanvas(container, {
                 delta: 1,
                 grid: {
-                    x: 5
+                    x: window.innerWidth > 768 ? 5 : 3
+                }
+            });
+            break;
+        case 'galerie-pixi':
+            new window.ExperimentsCreative.GaleriePixi(container, {
+                delta: 1,
+                grid: {
+                    x: window.innerWidth > 768 ? 5 : 3
                 }
             });
             break;

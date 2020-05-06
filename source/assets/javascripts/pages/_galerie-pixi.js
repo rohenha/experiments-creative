@@ -5,6 +5,8 @@ window.ExperimentsCreative.GaleriePixi = function GaleriePixi (container, config
     var initValue = { x: 0, y: 0 };
     this.container = container;
     this.config = config;
+    this.config.pan = true;
+    this.config.image = {};
     this.images = [];
     this.pan = {
         active: false,
@@ -31,22 +33,20 @@ window.ExperimentsCreative.GaleriePixi.prototype.setController = function () {
     this.mc.add(new Hammer.Pan());
     this.mc.add(new Hammer.Press());
     this.mc.on('panstart', this.panStartEvent.bind(this));
-    this.mc.on('tap', this.pressEvent.bind(this));
+    this.mc.on('press', this.pressEvent.bind(this));
     this.mc.on('pan', this.panEvent.bind(this));
     this.mc.on('panend pancancel pressup', this.panEndEvent.bind(this));
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.pressEvent = function (ev) {
     'use strict';
-    this.distortion.x.target = ev.center.x;
-    this.distortion.y.target = ev.center.y;
-    this.distortion.scale.position = 0;
-    this.distortion.scale.target = 2;
+    // This.config.pan = !this.config.pan;
+    // This.config.image = ev.center;
 };
 
 window.ExperimentsCreative.GaleriePixi.prototype.panStartEvent = function (ev) {
     'use strict';
-    if (this.pan.active) {
+    if (this.pan.active || !this.config.pan) {
         return;
     }
     this.pan.active = true;
@@ -60,7 +60,7 @@ window.ExperimentsCreative.GaleriePixi.prototype.panEvent = function (ev) {
         x: ev.center.x - this.pan.start.x + this.pan.current.x,
         y: ev.center.y - this.pan.start.y + this.pan.current.y
     };
-    if (!this.pan.active) {
+    if (!this.pan.active || !this.config.pan) {
         return;
     }
     this.pan.sens = {
@@ -256,19 +256,9 @@ window.ExperimentsCreative.GaleriePixi.prototype.setElements = function () {
 window.ExperimentsCreative.GaleriePixi.prototype.animate = function () {
     'use strict';
     var i = 0,
-        element,
         length = this.elements.length;
     for (i; i < length; i += 1) {
-        element = this.elements[i];
-        this.updateAxe(element, 'x');
-        this.updateAxe(element, 'y');
-        element.sprite.renderable = false;
-        if (
-            this.checkIsInViewport(element.x.position, this.config.size.width, this.canvasSize.width) &&
-            this.checkIsInViewport(element.y.position, this.config.size.height, this.canvasSize.height)) {
-            this.loadImage(element);
-            element.sprite.renderable = true;
-        }
+        this.updateImage(this.elements[i]);
     }
     this.clouds.x.target += Math.floor(Math.random() * 2);
     this.clouds.y.target += Math.floor(Math.random() * 2);
@@ -276,10 +266,27 @@ window.ExperimentsCreative.GaleriePixi.prototype.animate = function () {
     this.updateBlur();
 };
 
+window.ExperimentsCreative.GaleriePixi.prototype.updateImage = function (element) {
+    'use strict';
+    this.updateAxe(element, 'x');
+    this.updateAxe(element, 'y');
+    element.sprite.renderable = false;
+    if (
+        this.checkIsInViewport(element.x.position, this.config.size.width, this.canvasSize.width) &&
+        this.checkIsInViewport(element.y.position, this.config.size.height, this.canvasSize.height)) {
+        this.loadImage(element);
+        element.sprite.renderable = true;
+    }
+};
+
+window.ExperimentsCreative.GaleriePixi.prototype.checkImageIsClicked = function () {
+    'use strict';
+};
+
 window.ExperimentsCreative.GaleriePixi.prototype.updateBlur = function () {
     'use strict';
     var strength = Math.abs(this.pan.delta.x) + Math.abs(this.pan.delta.y);
-    this.zoomBlur.strength.target = strength * 0.5 / 80;
+    this.zoomBlur.strength.target = strength * 0.5 / 150;
     this.ease(this.zoomBlur.strength);
     this.zoomBlur.filter.center = this.pan.center;
     this.zoomBlur.filter.strength = this.zoomBlur.strength.position;

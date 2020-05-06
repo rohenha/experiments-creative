@@ -51,6 +51,9 @@ window.ExperimentsCreative.App = {
                 }
             });
             break;
+        case 'images-webgl':
+            new window.ExperimentsCreative.ImagesWebgl(container, {});
+            break;
         default:
         }
     },

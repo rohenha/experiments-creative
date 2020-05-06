@@ -1,0 +1,31 @@
+---
+title: Galerie Canvas Experiment
+---
+
+<div id="page" class="page_images-webgl" data-experience="images-webgl">
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <%= image_tag "distortion/clouds.jpg", class: 'page_images-webgl__distortion js-clouds' %>
+  <div class="container">
+    <div class="col-md-8 offset-md-2">
+      <div class="page_images-webgl__paragraphe">
+        <h1>Lorem Ipsum</h1>
+        <div class="section_image js-image">
+          <% i = 1 %>
+          <% image_url = image_path "galerie/img-#{i}.jpg" %>
+          <%= image_tag "galerie/img-#{i}-thumbnail.jpg", data: {src: image_url, loaded: false} %>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="page_images-webgl__paragraphe">
+        <h2>Lorem Ipsum</h2>
+        <div class="section_image js-image">
+          <% i = 10 %>
+          <% image_url = image_path "galerie/img-#{i}.jpg" %>
+          <%= image_tag "galerie/img-#{i}-thumbnail.jpg", data: {src: image_url, loaded: false} %>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+  </div>
+</div>

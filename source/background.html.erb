@@ -1,0 +1,12 @@
+---
+title: Background webgl Experiment
+---
+
+<div id="page" class="page_hexagon page_background" data-experience="background">
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <div class="section_image js-image">
+    <% i = 20 %>
+    <% image_url = image_path "galerie/img-#{i}.jpg" %>
+    <%= image_tag "galerie/img-#{i}-thumbnail.jpg", data: {src: image_url, loaded: false} %>
+  </div>
+</div>

@@ -54,6 +54,9 @@ window.ExperimentsCreative.App = {
         case 'images-webgl':
             new window.ExperimentsCreative.ImagesWebgl(container, {});
             break;
+        case 'background':
+            new window.ExperimentsCreative.Background(container, {});
+            break;
         default:
         }
     },

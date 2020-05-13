@@ -5,6 +5,7 @@ window.ExperimentsCreative.Hexagon = function Hexagon (container, config) {
     this.config.angleAdded = 360 / this.config.points;
     this.config.extremities = [];
     this.points = [];
+    console.log('hello world');
     this.gradient = new window.ExperimentsCreative.Gradient(this.config.colors, 100);
     this.selected = {
         end: null,

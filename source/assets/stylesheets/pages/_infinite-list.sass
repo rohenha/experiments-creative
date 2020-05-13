@@ -1,0 +1,32 @@
+.page__infinite-list
+    overflow: hidden
+    &__images
+        display: none
+
+    &__container
+        height: 100%
+        position: relative
+        width: 100%
+
+        li
+            align-items: center
+            display: flex
+            flex-flow: row wrap
+            height: 200px
+            justify-content: center
+            left: 0
+            position: absolute
+            top: 0
+            transform-origin: center center
+            width: 200px
+
+            img
+                max-height: 100%
+                max-width: 100%
+
+    @media screen and (min-width: 768px)
+
+        &__container
+            li
+                height: 400px
+                width: 400px

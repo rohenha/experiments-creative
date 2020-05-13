@@ -57,6 +57,22 @@ window.ExperimentsCreative.App = {
         case 'background':
             new window.ExperimentsCreative.Background(container, {});
             break;
+        case 'infinite-list':
+            new window.ExperimentsCreative.InfiniteList(container, {
+                grid: {
+                    desktop: {
+                        height: 400,
+                        space: 0.2,
+                        width: 400
+                    },
+                    mobile: {
+                        height: 200,
+                        space: 0.1,
+                        width: 200
+                    }
+                },
+            });
+            break;
         default:
         }
     },

@@ -1,0 +1,9 @@
+<div id="page" class="page_hexagon page__infinite-list" data-experience="infinite-list">
+  <ul class="page__infinite-list__images js-images">
+    <% (1..20).each do |i| %>
+    <% image_url = image_path "galerie/img-#{i}.jpg" %>
+    <li><%= image_tag "galerie/img-#{i}-thumbnail.jpg", data: {src: image_url, loaded: false} %></li>
+    <% end %>
+  </ul>
+  <ul class="page__infinite-list__container js-list"></ul>
+</div>

@@ -1,4 +1,4 @@
-/* global Hammer */
+/*global Hammer, window */
 window.ExperimentsCreative.GalerieCanvas = function GalerieCanvas (container, config) {
     'use strict';
     var initValue = { x: 0, y: 0 };

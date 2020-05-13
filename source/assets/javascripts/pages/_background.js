@@ -1,5 +1,5 @@
 /* eslint-disable new-cap */
-/* global PIXI */
+/*global PIXI, window */
 window.ExperimentsCreative.Background = function Background (container, config) {
     'use strict';
     this.container = container;

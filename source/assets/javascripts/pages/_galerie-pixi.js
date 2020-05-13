@@ -1,4 +1,4 @@
-/* global Hammer, PIXI */
+/*global window, Hammer, PIXI */
 /* eslint-disable new-cap */
 window.ExperimentsCreative.GaleriePixi = function GaleriePixi (container, config) {
     'use strict';
@@ -273,7 +273,8 @@ window.ExperimentsCreative.GaleriePixi.prototype.updateImage = function (element
     element.sprite.renderable = false;
     if (
         this.checkIsInViewport(element.x.position, this.config.size.width, this.canvasSize.width) &&
-        this.checkIsInViewport(element.y.position, this.config.size.height, this.canvasSize.height)) {
+            this.checkIsInViewport(element.y.position, this.config.size.height, this.canvasSize.height)
+    ) {
         this.loadImage(element);
         element.sprite.renderable = true;
     }

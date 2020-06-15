@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'middleman', '~> 4.2'
-gem 'middleman-cli'
+# gem 'middleman-cli'
 gem 'middleman-autoprefixer', '~> 2.7'
 gem 'contentful_middleman'
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby, :x64_mingw]

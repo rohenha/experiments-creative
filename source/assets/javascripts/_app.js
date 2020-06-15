@@ -57,6 +57,9 @@ window.ExperimentsCreative.App = {
         case 'background':
             new window.ExperimentsCreative.Background(container, {});
             break;
+        case 'background-shader':
+            new window.ExperimentsCreative.BackgroundShader(container, {});
+            break;
         case 'infinite-list':
             new window.ExperimentsCreative.InfiniteList(container, {
                 grid: {

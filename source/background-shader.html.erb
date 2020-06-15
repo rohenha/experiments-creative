@@ -1,0 +1,110 @@
+---
+title: Background shader Experiment
+---
+
+<div id="page" class="page_hexagon page_background" data-experience="background-shader">
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <!--
+  -->
+  <canvas id="canvasNoise" width="300" height="300"></canvas>
+  <% i = 20 %>
+  <% image_url = image_path "galerie/img-#{i}.jpg" %>
+  <%= image_tag "galerie/img-#{i}-thumbnail.jpg", class: "js-image", data: {src: image_url, loaded: false} %>
+</div>
+<script id="vertShader" type="x-shader/x-vert">
+    precision mediump float;
+
+    attribute vec2 aVertexPosition;
+    attribute vec2 aUvs;
+
+    uniform mat3 translationMatrix;
+    uniform mat3 projectionMatrix;
+
+    varying vec2 vUvs;
+
+    void main() {
+        vUvs = aUvs;
+        gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+    }
+</script>
+
+<script id="fragShader" type="x-shader/x-frag">
+  #ifdef GL_ES
+    precision mediump float;
+  #endif
+
+  uniform vec2 uRes;
+  uniform vec2 uMouse;
+  uniform float uPR;
+  uniform float uTime;
+  uniform float uTurb;
+  uniform float uSize;
+  uniform sampler2D uImage;
+  uniform sampler2D uCanvas;
+
+  varying vec2 vUvs;
+
+  // 2D Random
+  float random (in vec2 st) {
+      return fract(sin(dot(st.xy,
+        vec2(12.9898,78.233)))
+        * 43758.5453123);
+  }
+
+  // 2D Noise based on Morgan McGuire @morgan3d
+  // https://www.shadertoy.com/view/4dS3Wd
+  float noise (in vec2 st) {
+      vec2 i = floor(st);
+      vec2 f = fract(st);
+
+      // Four corners in 2D of a tile
+      float a = random(i);
+      float b = random(i + vec2(1.0, 0.0));
+      float c = random(i + vec2(0.0, 1.0));
+      float d = random(i + vec2(1.0, 1.0));
+
+      // Smooth Interpolation
+
+      // Cubic Hermine Curve.  Same as SmoothStep()
+      vec2 u = f*f*(3.0-2.0*f);
+      // u = smoothstep(0.,1.,f);
+
+      // Mix 4 coorners percentages
+      return mix(a, b, u.x) +
+              (c - a)* u.y * (1.0 - u.x) +
+              (d - b) * u.x * u.y;
+  }
+
+  float circle(in vec2 _st, in float _radius, in float blurriness){
+    vec2 dist = _st;
+    return 1.-smoothstep(_radius-(_radius*blurriness), _radius+(_radius*blurriness), dot(dist,dist)*4.0);
+  }
+
+  void main() {
+    float offx = (vUvs.x + vUvs.y + uTime * 0.1) * uTurb;
+    float offy = (vUvs.y - uTime * 0.1 - uTime * 0.1) * uTurb;
+    float n = noise(vec2(offx, offy) * uSize) - 0.6;
+    float path;
+
+
+    vec4 color = vec4(0., 0., 0., 1.);
+    vec4 image = texture2D(uImage, vUvs);
+    vec4 canvas = texture2D(uCanvas, vUvs);
+
+    vec2 res = uRes * uPR;
+    vec2 st = gl_FragCoord.xy / res.xy - vec2(0.5);
+    // tip: use the following formula to keep the good ratio of your coordinates
+    st.y *= res.y / res.x;
+
+    vec2 mouse = uMouse * -0.5;
+    vec2 circlePos = st + mouse;
+    float c = circle(circlePos, .07, 5.);
+
+    float finalMask = smoothstep(0.4, 0.5, n + pow(float(canvas) * 1.5, 3.));
+    vec4 finalImage = mix(color, image, finalMask);
+
+    gl_FragColor = vec4(vec3(c), 1.);
+    gl_FragColor = finalImage;
+    gl_FragColor = canvas;
+  }
+</script>
